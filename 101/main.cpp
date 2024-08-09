@@ -56,32 +56,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
 // Edit begin
 Eigen::Matrix4f get_rotation(Vector3f axis, float angel)
 {
-    Eigen::Matrix4f model = Eigen::Matrix4f::Identity();
-    //去掉长度，保留方向
-    float norm = sqrt(axis[0]*axis[0]+axis[1]*axis[1]+axis[2]+axis[2]);
-    axis[0]/=norm;
-    axis[1]/=norm;
-    axis[2]/=norm;
-
-    //围绕任意轴旋转的矩阵公式
-    float rad = angel / 180.0 * MY_PI;
-    Eigen::Matrix3f n(3,3);
-    n << 0, -axis[2], axis[1],
-        axis[2], 0, -axis[0],
-        -axis[1],axis[0],0;
-    
-    Eigen::Matrix3f component1 = Eigen::Matrix3f::Identity() * cos(rad);
-    Eigen::Matrix3f component2 = axis * axis.transpose() * (1 - cos(rad));
-    Eigen::Matrix3f component3 = n*sin(rad);
-
-    Eigen::Matrix3f m_rotate = component1 + component2 + component3;
-
-    Eigen::Matrix4f m4_rotate = Eigen::Matrix4f::Identity();
-    //在0,0位置取3x3的矩阵
-    m4_rotate.block(0,0,3,3) = m_rotate;
-
-    model = m4_rotate * model;
-    return model;
+   
 }
 // Edit end
 
@@ -106,7 +81,7 @@ int main(int argc, const char** argv)
     Eigen::Vector3f eye_pos = {0, 0, 5};
 
     // Edit begin
-    Eigen::Vector3f rotate_axis = {1,1,0};
+
     // Edit end
 
     std::vector<Eigen::Vector3f> pos{{2, 0, -2}, {0, 2, -2}, {-2, 0, -2}};
@@ -124,9 +99,7 @@ int main(int argc, const char** argv)
 
         // Edit begin
         //围绕z轴旋转
-        //r.set_model(get_model_matrix(angle));
         //围绕任意轴旋转
-        r.set_model(get_rotation(rotate_axis,angle));
         // Edit end
 
         r.set_view(get_view_matrix(eye_pos));
@@ -147,9 +120,7 @@ int main(int argc, const char** argv)
 
         // Edit begin
         //围绕z轴旋转
-        //r.set_model(get_model_matrix(angle));
         //围绕任意轴旋转
-        r.set_model(get_rotation(rotate_axis,angle));
         // Edit end
 
         r.set_view(get_view_matrix(eye_pos));
