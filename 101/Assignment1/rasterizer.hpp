@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "triangle.hpp"
+#include "Triangle.hpp"
 #include <algorithm>
 #include <eigen3/Eigen/Eigen>
 using namespace Eigen;
